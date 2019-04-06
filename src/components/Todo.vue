@@ -26,7 +26,7 @@
             <input type="text" v-model="todo.project">
           </div>
           <div class="ui two button attached buttons">
-            <button class="ui basic blue button" v-on:click="hideForm">Close X</button>
+            <button class="ui basic blue button" v-on:click="hideForm(todo)">Close X</button>
           </div>
         </div>
       </div>
@@ -65,8 +65,9 @@ export default {
     showForm() {
       this.isEditing = true;
     },
-    hideForm() {
+    hideForm(todo) {
       this.isEditing = false;
+      this.$emit("edited-todo", todo);
     },
     deleteTodo(todo) {
       this.$emit("delete-todo", todo);

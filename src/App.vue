@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" class="logo">
-    <todo-list v-bind:todos="todos"></todo-list>
+    <todo-list
+      v-bind:todos="todos"
+      v-on:delete-from-todos="saveTodos"
+      v-on:edited-to-todos="saveTodos"
+      v-on:complite-todo="saveTodos"
+      v-on:return-in-todos="saveTodos"
+    ></todo-list>
     <create-todo v-on:create-todo="addTodo"></create-todo>
   </div>
 </template>
@@ -20,31 +26,30 @@ export default {
     return {
       todos: [
         {
-          title: "Todo A",
+          title: "Make plan for today",
           project: "Project A",
-          done: false
-        },
-        {
-          title: "Todo B",
-          project: "Project B",
-          done: true
-        },
-        {
-          title: "Todo C",
-          project: "Project C",
-          done: false
-        },
-        {
-          title: "Todo D",
-          project: "Project D",
           done: false
         }
       ]
     };
   },
+  mounted() {
+    if (localStorage.getItem("todos")) {
+      try {
+        this.todos = JSON.parse(localStorage.getItem("todos"));
+      } catch (e) {
+        localStorage.removeItem("todos");
+      }
+    }
+  },
   methods: {
     addTodo(todo) {
       this.todos.push(todo);
+      this.saveTodos();
+    },
+    saveTodos() {
+      const parsed = JSON.stringify(this.todos);
+      localStorage.setItem("todos", parsed);
     }
   }
 };

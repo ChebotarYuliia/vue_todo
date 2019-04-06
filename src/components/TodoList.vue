@@ -10,6 +10,7 @@
           v-for="todo in todos"
           v-bind:todo="todo"
           v-bind:key="todo"
+          v-on:edited-todo="editTodo"
           v-on:delete-todo="deleteTodo"
           v-on:complete-todo="completeTodo"
           v-on:return-in-todo="returnTodo"
@@ -28,17 +29,23 @@ export default {
     Todo
   },
   methods: {
+    editTodo(todo) {
+      this.$emit("edited-to-todos", todo);
+    },
     deleteTodo(todo) {
       const item = this.todos.indexOf(todo);
       this.todos.splice(item, 1);
+      this.$emit("delete-from-todos", todo);
     },
     completeTodo(todo) {
       const item = this.todos.indexOf(todo);
       this.todos[item].done = true;
+      this.$emit("complite-todo", todo);
     },
     returnTodo(todo) {
       const item = this.todos.indexOf(todo);
       this.todos[item].done = false;
+      this.$emit("return-in-todos", todo);
     }
   }
 };
