@@ -1,5 +1,5 @@
 <template>
-  <div class="ui centered card">
+  <div class="ui card">
     <transition name="fade">
       <div class="content" v-show="!isEditing">
         <div class="header">{{ todo.title }}</div>
@@ -31,8 +31,24 @@
         </div>
       </div>
     </transition>
-    <div class="ui bottom attached green basic button" v-show="todo.done">Completed</div>
-    <div class="ui bottom attached red basic button" v-show="!todo.done">Complete</div>
+    <div
+      class="ui bottom attached green basic button"
+      v-show="todo.done"
+      v-on:mouseover="hover = true"
+      v-if="!hover"
+    >Completed</div>
+    <div
+      class="ui bottom attached green basic button"
+      v-show="todo.done"
+      v-on:mouseleave="hover = false"
+      v-if="hover"
+      v-on:click="returnInTodo(todo)"
+    >Return in todo</div>
+    <div
+      class="ui bottom attached red basic button"
+      v-show="!todo.done"
+      v-on:click="completeTodo(todo)"
+    >Complete</div>
   </div>
 </template>
 
@@ -41,7 +57,8 @@ export default {
   props: ["todo"],
   data() {
     return {
-      isEditing: false
+      isEditing: false,
+      hover: false
     };
   },
   methods: {
@@ -53,6 +70,12 @@ export default {
     },
     deleteTodo(todo) {
       this.$emit("delete-todo", todo);
+    },
+    completeTodo(todo) {
+      this.$emit("complete-todo", todo);
+    },
+    returnInTodo(todo) {
+      this.$emit("return-in-todo", todo);
     }
   }
 };
@@ -60,12 +83,12 @@ export default {
 
 
 <style>
-.fade-enter-active,
+/* .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
 }
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
-}
+} */
 </style>

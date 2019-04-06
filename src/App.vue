@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+    <img alt="Vue logo" src="./assets/logo.png" class="logo">
     <todo-list v-bind:todos="todos"></todo-list>
+    <create-todo v-on:create-todo="addTodo"></create-todo>
   </div>
 </template>
 
 <script>
 import TodoList from "./components/TodoList.vue";
+import CreateTodo from "./components/CreateTodo.vue";
 
 export default {
   name: "app",
   components: {
-    TodoList
+    TodoList,
+    CreateTodo
   },
   data() {
     return {
@@ -38,9 +41,18 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    addTodo(todo) {
+      this.todos.push(todo);
+    }
   }
 };
 </script>
 
 <style>
+.logo {
+  margin: 10px auto;
+  display: block;
+}
 </style>
