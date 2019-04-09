@@ -3,12 +3,12 @@
     <img alt="Vue logo" src="./assets/logo.png" class="logo">
     <todo-list
       v-bind:todos="todos"
-      v-on:delete-from-todos="saveTodos"
-      v-on:edited-to-todos="saveTodos"
-      v-on:complite-todo="saveTodos"
-      v-on:return-in-todos="saveTodos"
+      @delete-from-todos="saveTodos"
+      @edited-to-todos="saveTodos"
+      @complite-todo="saveTodos"
+      @return-in-todos="saveTodos"
     ></todo-list>
-    <create-todo v-on:create-todo="addTodo"></create-todo>
+    <create-todo @create-todo="addTodo"></create-todo>
   </div>
 </template>
 

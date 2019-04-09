@@ -1,25 +1,25 @@
 <template>
   <div>
     <div class="todo__info">
-      <p>Completed Tasks: {{ todos.filter( todo => todo.done === true ).length }}</p>
-      <p>Pending Tasks: {{ todos.filter( todo => todo.done === false ).length }}</p>
+      <p>Completed Tasks: {{ calcTasks('completed') }}</p>
+      <p>Pending Tasks: {{ calcTasks('pending') }}</p>
     </div>
     <div class="todo__list">
       <div class="doubling ui four cards">
         <todo
-          v-for="todo in todos"
+          v-for="(todo, index) in todos"
           v-bind:todo="todo"
-          v-bind:key="todo"
-          v-on:edited-todo="editTodo"
-          v-on:delete-todo="deleteTodo"
-          v-on:complete-todo="completeTodo"
-          v-on:return-in-todo="returnTodo"
+          v-bind:key="index"
+          @edited-todo="editTodo"
+          @delete-todo="deleteTodo"
+          @complete-todo="completeTodo"
+          @return-in-todo="returnTodo"
         ></todo>
       </div>
     </div>
   </div>
 </template>
-  
+
 
 <script type = "text/javascript" >
 import Todo from "./Todo.vue";
@@ -29,6 +29,13 @@ export default {
     Todo
   },
   methods: {
+    calcTasks(status){
+      if( status === 'completed' ) {
+        return this.todos.filter( todo => todo.done === true ).length
+      } else if (  status === 'pending'  ) {
+        return this.todos.filter( todo => todo.done === false ).length
+      }
+    },
     editTodo(todo) {
       this.$emit("edited-to-todos", todo);
     },
